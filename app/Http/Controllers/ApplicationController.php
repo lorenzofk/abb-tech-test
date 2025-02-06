@@ -17,6 +17,10 @@ class ApplicationController extends Controller
         $planType = $request->query('plan_type');
 
         $applications = Application::when($planType, fn ($query) => $query->planType($planType))
+            ->with([
+                'customer' => fn ($query) => $query->select(['id', 'first_name', 'last_name']),
+                'plan' => fn ($query) => $query->select(['id', 'type', 'name', 'monthly_cost']),
+            ])
             ->orderBy('created_at')
             ->paginate(config('pagination.api.pagination.per_page'));
 

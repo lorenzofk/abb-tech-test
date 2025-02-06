@@ -37,7 +37,7 @@ class Application extends Model
      */
     public function scopePlanType(Builder $query, string $planType): Builder
     {
-        return $query->withWhereHas('plan', fn ($query) => $query->where('type', $planType));
+        return $query->whereHas('plan', fn ($query) => $query->where('type', $planType));
     }
 
     /**
