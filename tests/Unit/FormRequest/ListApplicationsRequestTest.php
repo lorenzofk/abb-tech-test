@@ -20,6 +20,15 @@ class ListApplicationsRequestTest extends TestCase
         $this->request = new ListApplicationsRequest();
     }
 
+    public function test_should_pass_without_any_plan_type(): void
+    {
+        $data = [];
+
+        $validator = Validator::make($data, $this->request->rules());
+
+        $this->assertTrue($validator->passes());
+    }
+
     public function test_should_pass_with_valid_plan_type(): void
     {
         $planType = $this->faker->randomElement(['nbn', 'mobile', 'opticomm']);
