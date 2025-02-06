@@ -37,6 +37,14 @@ class ApiTest extends TestCase
         $response->assertJson(['total' => 0]);
     }
 
+    public function test_should_return_a_validation_error_when_invalid_plan_type_is_provided(): void
+    {
+        $response = $this->sendRequest('invalid_plan_type');
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['plan_type']);
+    }
+
     #[DataProvider('applicationsDataProvider')]
     public function test_should_return_a_paginated_response_when_applications_are_found(Closure $planFactory): void
     {
@@ -95,7 +103,7 @@ class ApiTest extends TestCase
      */
     private function sendRequest(?string $planType = null): TestResponse
     {
-        $queryParams = $planType ? ['planType' => $planType] : [];
+        $queryParams = $planType ? ['plan_type' => $planType] : [];
 
         return $this->getJson(route('api.applications', $queryParams));
     }
