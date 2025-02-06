@@ -7,6 +7,7 @@ use App\Models\Plan;
 use App\Models\User;
 use Closure;
 use Database\Factories\PlanFactory;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -51,6 +52,24 @@ class ApiTest extends TestCase
 
         $response->assertSuccessful();
         $response->assertJson(['total' => $applications->count()]);
+    }
+
+    public function test_should_return_the_applications_sorted_by_oldest_first(): void
+    {
+        // Create two applications with different `created_at` dates
+        $applications = Application::factory()
+            ->count(2)
+            ->create([
+                'created_at' => new Sequence(now()->subDays(2), now())
+            ]);
+
+        $response = $this->sendRequest();
+
+        $response->assertSuccessful();
+        $response->assertJson(['total' => $applications->count()]);
+        $response->assertJsonPath('data.0.id', $applications->first()->id);
+        $response->assertJsonPath('data.1.id', $applications->last()->id);
+
     }
 
     /**
