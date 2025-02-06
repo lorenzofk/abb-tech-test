@@ -22,4 +22,28 @@ class PlanFactory extends Factory
             'monthly_cost' => $this->faker->numerify('####'),
         ];
     }
+
+    /**
+     * Return a plan with the type of `opticomm`.
+     */
+    public function opticomm(): self
+    {
+        return $this->state(fn () => ['type' => 'opticomm']);
+    }
+
+    /**
+     * Return a plan with the type of `mobile`.
+     */
+    public function mobile(): self
+    {
+        return $this->state(fn () => ['type' => 'mobile']);
+    }
+
+    /**
+     * Return a plan with the type of `nbn`.
+     */
+    public function nbn(): self
+    {
+        return $this->state(fn () => ['type' => 'nbn']);
+    }
 }
