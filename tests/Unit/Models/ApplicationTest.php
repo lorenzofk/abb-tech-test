@@ -42,7 +42,7 @@ class ApplicationTest extends TestCase
 
     public function test_should_return_the_full_address_of_the_application(): void
     {
-        $application = Application::factory()->create([
+        $application = Application::factory()->make([
             'address_1' => $this->faker->streetAddress(),
             'address_2' => $this->faker->secondaryAddress(),
             'city' => $this->faker->city(),
@@ -58,6 +58,6 @@ class ApplicationTest extends TestCase
             $application->postcode,
         ]));
 
-        $this->assertEquals($application->full_address, $expectedAddress);
+        $this->assertEquals($expectedAddress, $application->full_address);
     }
 }

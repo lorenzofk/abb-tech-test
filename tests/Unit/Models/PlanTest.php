@@ -24,7 +24,7 @@ class PlanTest extends TestCase
     public function test_should_return_the_monthly_cost_of_the_plan_in_human_readable_format(): void
     {
         // Create a plan with a monthly cost of $100.00
-        $plan = Plan::factory()->create(['monthly_cost' => 10000]);
+        $plan = Plan::factory()->state(['monthly_cost' => 10000])->make();
 
         $this->assertEquals('$100.00', $plan->monthly_cost_formatted);
     }

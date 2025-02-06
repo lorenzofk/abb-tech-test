@@ -17,7 +17,7 @@ class ApplicationResourceTest extends TestCase
     #[DataProvider('applicationStatusProvider')]
     public function test_should_return_the_correct_transformed_data_for_different_application_statuses(ApplicationStatus $status): void
     {
-        $application = Application::factory()->state(['status' => $status])->make();
+        $application = Application::factory()->state(['status' => $status])->create();
 
         $resource = (new ApplicationResource($application))->toArray(request());
 
