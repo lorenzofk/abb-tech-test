@@ -17,7 +17,7 @@ class ApiTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected User $user;
+    private User $user;
 
     public function setUp(): void
     {
