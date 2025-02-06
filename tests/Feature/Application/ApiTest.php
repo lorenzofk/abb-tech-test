@@ -2,9 +2,14 @@
 
 namespace Tests\Feature\Application;
 
+use App\Models\Application;
+use App\Models\Plan;
 use App\Models\User;
+use Closure;
+use Database\Factories\PlanFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class ApiTest extends TestCase
@@ -29,6 +34,41 @@ class ApiTest extends TestCase
 
         $response->assertSuccessful();
         $response->assertJson(['total' => 0]);
+    }
+
+    #[DataProvider('applicationsDataProvider')]
+    public function test_should_return_a_paginated_response_when_applications_are_found(Closure $planFactory): void
+    {
+        // Create a new plan based on the data provider
+        $plan = $planFactory()->create();
+        
+        $applications = Application::factory()
+            ->count(10)
+            ->recycle($plan)
+            ->create();
+
+        $response = $this->sendRequest($plan->type);
+
+        $response->assertSuccessful();
+        $response->assertJson(['total' => $applications->count()]);
+    }
+
+    /**
+     * Data provider with different plan types.
+     */
+    public static function applicationsDataProvider(): array
+    {
+        return [
+            'Search by mobile plan' => [
+                'plan' => fn () : PlanFactory => Plan::factory()->mobile(),
+            ],
+            'Search by NBN plan' => [
+                'plan' => fn () : PlanFactory => Plan::factory()->nbn(),
+            ],
+            'Search by Opticomm plan' => [
+                'plan' => fn () : PlanFactory => Plan::factory()->opticomm(),
+            ],
+        ];
     }
 
     /**
