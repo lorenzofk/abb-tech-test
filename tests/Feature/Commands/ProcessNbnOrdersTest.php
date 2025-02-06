@@ -5,7 +5,6 @@ namespace Tests\Unit\Commands;
 use App\Jobs\ProcessNbnOrder;
 use App\Models\Application;
 use App\Models\Plan;
-use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Bus;
 use Tests\TestCase;
 
