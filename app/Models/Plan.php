@@ -21,8 +21,10 @@ class Plan extends Model
      */
     protected function monthlyCostFormatted(): Attribute
     {
+        $prefix = '$';
+        
         return Attribute::make(
-            get: fn () => number_format($this->monthly_cost / 100, 2),
+            get: fn () => $prefix . number_format($this->monthly_cost / 100, 2),
         );
     }
 }

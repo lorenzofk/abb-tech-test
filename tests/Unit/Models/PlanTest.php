@@ -26,6 +26,6 @@ class PlanTest extends TestCase
         // Create a plan with a monthly cost of $100.00
         $plan = Plan::factory()->create(['monthly_cost' => 10000]);
 
-        $this->assertEquals('100.00', $plan->monthly_cost_formatted);
+        $this->assertEquals('$100.00', $plan->monthly_cost_formatted);
     }
 }
