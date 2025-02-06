@@ -3,21 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ListApplicationsRequest;
+use App\Http\Resources\ApplicationResource;
 use App\Models\Application;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+
 class ApplicationController extends Controller
 {
     /**
      * Return a list of applications.
      */
-    public function index(ListApplicationsRequest $request): JsonResponse
+    public function index(ListApplicationsRequest $request): AnonymousResourceCollection
     {
         $planType = $request->query('plan_type');
 
         $applications = Application::when($planType, fn ($query) => $query->planType($planType))
             ->orderBy('created_at')
-            ->paginate(10);
+            ->paginate(config('pagination.api.pagination.per_page'));
 
-        return response()->json($applications);
+        return ApplicationResource::collection($applications);
     }
 }

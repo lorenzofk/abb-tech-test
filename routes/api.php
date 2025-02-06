@@ -16,5 +16,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {  
     Route::get('/user', fn () => auth()->user());
-    Route::get('/applications', [ApplicationController::class, 'index'])->name('api.applications');
+    Route::get('/applications', [ApplicationController::class, 'index'])->name('api.v1.applications.index');
 });
