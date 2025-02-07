@@ -51,6 +51,16 @@ class ProcessNbnOrderTest extends TestCase
         $this->assertEquals($response['id'], $this->application->order_id);
     }
 
+    public function test_should_not_dispatch_duplicate_jobs_for_the_same_application(): void
+    {
+        // Dispatch the same job twice
+        ProcessNbnOrder::dispatch($this->application);
+        ProcessNbnOrder::dispatch($this->application);
+
+        // Assert that only `one unique` job was dispatched
+        Queue::assertPushed(ProcessNbnOrder::class, 1);
+    }
+
     public function test_should_set_status_to_order_failed_on_failed_response(): void
     {
         $response = $this->getFailedResponse();
@@ -86,6 +96,7 @@ class ProcessNbnOrderTest extends TestCase
         // Ensure the application status remains unchanged
         $this->assertEquals(ApplicationStatus::Complete, $applicationAlreadyProcessed->status);
     }
+    
 
     public function test_should_set_application_status_to_failed_when_job_fails(): void
     {
