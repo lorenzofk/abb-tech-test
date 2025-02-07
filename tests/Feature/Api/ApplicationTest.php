@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Application;
+namespace Tests\Feature\Api;
 
 use App\Enums\ApplicationStatus;
 use App\Models\Application;
@@ -15,7 +15,7 @@ use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
-class ApiTest extends TestCase
+class ApplicationTest extends TestCase
 {
     use RefreshDatabase;
 
