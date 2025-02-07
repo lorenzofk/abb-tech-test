@@ -22,6 +22,11 @@ class Application extends Model
         'created' => ApplicationCreated::class,
     ];
 
+    protected $fillable = [
+        'status',
+        'order_id',
+    ];
+
     public function plan(): BelongsTo
     {
         return $this->belongsTo(Plan::class);

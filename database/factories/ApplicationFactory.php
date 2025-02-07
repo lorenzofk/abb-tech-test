@@ -31,4 +31,19 @@ class ApplicationFactory extends Factory
             'order_id' => null,
         ];
     }
+
+    public function order(): self
+    {
+        return $this->state(fn () => [
+            'status' => ApplicationStatus::Order,
+        ]);
+    }
+
+    public function complete(): self
+    {
+        return $this->state(fn () => [
+            'status' => ApplicationStatus::Complete,
+            'order_id' => $this->faker->uuid(),
+        ]);
+    }
 }
