@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Commands;
+namespace Tests\Feature\Commands;
 
 use App\Jobs\ProcessNbnOrder;
 use App\Models\Application;
