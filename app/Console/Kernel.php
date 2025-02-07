@@ -15,7 +15,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('orders:process-nbn')->everyFiveMinutes();
+        $schedule->command('orders:process-nbn')
+            ->everyFiveMinutes()
+            ->withoutOverlapping();
     }
 
     /**
