@@ -6,6 +6,7 @@ use App\Enums\ApplicationStatus;
 use App\Models\Application;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
-class ProcessNbnOrder implements ShouldQueue
+class ProcessNbnOrder implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -78,6 +79,22 @@ class ProcessNbnOrder implements ShouldQueue
         ]);
 
         $this->application->update(['status' => ApplicationStatus::OrderFailed]);
+    }
+
+    /**
+     * Get the unique ID for the job.
+     */
+    public function uniqueId(): string
+    {
+        return $this->application->id;
+    }
+
+    /**
+     * Ensure the job stays unique for 10 minutes (to prevent accidental re-processing).
+     */
+    public function uniqueFor(): int
+    {
+        return 10 * 60; // 10 minutes
     }
 
     /**
